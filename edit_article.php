@@ -12,18 +12,18 @@ use commerce\DBConnection;
 
 require("Helpers.php");
 require_once "config.php";
+
+
 if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
-    $query = "SELECT `title`,`description` FROM `articles` where `id` =" . $_GET['article_id'];
+    $query = "SELECT `id`,`title`,`description`,`link` FROM `articles` where `id` =" . $_GET['article_id'];
     var_dump($query);
     $result = DBConnection::getConnection()->query($query);
     var_dump($result);
 
-   $currentArticle = $result->fetch_row();
+    $currentArticle = $result->fetch_row();
     var_dump($currentArticle);
-    $title=$currentArticle[0]["title"];
-
-
+    // $title=$currentArticle[0]["title"];
 
 
     ?>
@@ -41,30 +41,32 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
         <h1 align="middle">ADD NEW ARTICLE</h1>
     </div>
     <div class="well" style="width:600px; height: 400px ; margin:0px auto;">
-        <form class="form-horizontal" method="post" aligm="middle">
+        <form class="form-horizontal" method="post" aligm="middle" action="edit_submit.php">
             <div class="form-group">
                 <label class="col-md-4 control-label">TITLE:</label>
                 <div class="col-md-6">
-                   <?php echo '<input name="title" class="form-control" type="text" value='. $currentArticle[0]['title'].'>'?>
+                    <?php echo '<input name="title" class="form-control" type="text" value=' . $currentArticle[1] . '>' ?>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">DESCRIPTION:</label>
                 <div class="col-md-6">
-                    <input name="description" class="form-control" type="text"/>
+                    <?php echo '<input name="description" class="form-control" type="text" value=' . $currentArticle[2] . '>' ?>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">LINK:</label>
                 <div class="col-md-6">
-                    <input name="link" class="form-control" type="text"/>
+                    <?php echo '<input name="link" class="form-control" type="text" value=' . $currentArticle[3] . '>' ?>
                 </div>
             </div>
-
+            <input name="id"  type="hidden" value=' <?php  $currentArticle[0]  ?>' />
 
             <div class="form-group">
                 <div class="col-md-12 btn">
+
                     <button type="submit" class="btn btn-primary">
+
                         SAVE
                     </button>
 
