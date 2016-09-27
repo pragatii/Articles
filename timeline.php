@@ -47,21 +47,20 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
                     <div class="form-group"  align="right" >
 
-                            <button type="submit" class="btn btn-primary">
+                        <?php echo '<a href= "edit_article.php?article_id= '.$item['id'].' ">' ?>    <button type="submit" class="btn btn-primary">
                                 Edit
-                            </button>
-                          <?php echo '<a href= "delete_article.php?article_id= '.$item['id'].' "> 
+                            </button></a>
+                          <?php echo '<a href= "delete_article.php?article_id= '.$item['id'].' ">' ?>  <button type="submit" class="btn btn-primary">
                                 Delete
-                            </a>'?>
+                                </button>
+                            </a>
 
 
 
 
 
                     </div>
-                    <a href= "delete_article.php?article_id=  <?php $item['id'] ?>">
-                        Delete
-                    </a>
+
 
 
 
