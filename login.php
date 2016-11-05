@@ -78,7 +78,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
 
         </div>
-
+        <a href="index.php">Don't have an account <strong> Sign UP </strong></a>
 
     </div>
 </form></div>

@@ -10,7 +10,7 @@ namespace commerce;
 use commerce\DBConnection;
 
 
-require ("Helpers.php");
+require("Helpers.php");
 require_once "config.php";
 if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
@@ -34,43 +34,86 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 <body style="background-color: midnightblue;">
     <h2 align="middle" style="color: aliceblue">Latest Updates </h2>
     <?php foreach ($articleList as $item) {
+        $query1 = "select `name` from `user` where `id`= " . $item['writer_id'];
+        $result1 = DBConnection::getConnection()->query($query1);
+        $userName = $result1->fetch_row();
+        $fetchActionQuery = "select `user_id`, `value` from `actions` where `article_id` = '{$item['id']}' and `type` = 'like'";
+        $likes = DBConnection::getConnection()->query($fetchActionQuery)->fetch_all(MYSQLI_ASSOC);
+        //var_dump($likes);
+
         ?>
 
-        <div class="container" >
+        <div class="container">
 
 
             <ul class="list-group">
-              <?php  if(Helpers::loginUserId()==$item["writer_id"]){ ?>
-                <li class="list-group-item" style="width:600px; height: 100px ; margin:0px auto;"><?php
+                    <li class="list-group-item" style="width:600px; height: 150px ; margin:0px auto;"><?php
 
-                    echo "Title " . $item["title"]; ?>
+                        echo "Title " . $item["title"]; ?>
+                        <div class="form-group" align="left"><?php
+                            echo "Created by : " . $userName[0];
 
-                    <div class="form-group"  align="right" >
+                            ?>
 
-                        <?php echo '<a href= "edit_article.php?article_id= '.$item['id'].' ">' ?>    <button type="submit" class="btn btn-primary">
-                                Edit
-                            </button></a>
-                          <?php echo '<a href= "delete_article.php?article_id= '.$item['id'].' ">' ?>  <button type="submit" class="btn btn-primary">
-                                Delete
+
+                            <div class="form-group" align="right">
+                                <?php if (Helpers::loginUserId() == $item["writer_id"]) { ?>
+
+
+                                    <?php echo '<a href= "edit_article.php?article_id= ' . $item['id'] . ' ">' ?>
+                                <button type="submit" class="btn btn-primary">
+                                    Edit
                                 </button>
-                            </a>
+                                </a>
+                                <?php echo '<a href= "delete_article.php?article_id= ' . $item['id'] . ' ">' ?>
+                                <button type="submit" class="btn btn-primary">
+                                    Delete
+                                </button>
+
+
+                                </a>
+                                <?php }
+                                 ?>
+
+                                <?php
+                                $flag =false;
+                                foreach ($likes as $like){
+                                    if($like["user_id"]==Helpers::loginUserId()){
+                                      $flag=true;
+                                        break;
+                                    }
+                                }
+
+                                ?>
+
+                                <?php
+                                if($flag){
+                                echo '<a href= "like_article.php?article_id= ' . $item['id'] . ' ">'; echo count($likes);?> Unlike</a>
+                                    <?php }
+                                    else {
+                                        echo '<a href= "like_article.php?article_id= ' . $item['id'] . ' ">'; echo count($likes);?> Like</a>
+
+                                        <?php } ?>
+
+
+                                <?php echo '<a href= "comment_article.php?article_id= ' . $item['id'] . ' ">' ?>
+                                Comment </a>
 
 
 
+                            </div>
+
+                        </div>
+                        <div class="form-group" align="right"><?php
+
+                            echo "  Created at : " . $item["created_at"]
+                            ?>
+
+                        </div>
 
 
-                    </div>
+                    </li>
 
-
-
-
-                </li>
-            <?php }
-            else{ ?>
-                <li class="list-group-item" style="width:600px; height: 50px ; margin:0px auto;"><?php
-
-                    echo "Title " . $item["title"]; ?></li>
-                <?php } ?>
 
             </ul>
         </div>
@@ -104,6 +147,11 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
     </html>
     <?php
 } else {
-    echo "You Are Not Logged in!!";
-}
+    echo "You Are Not Logged in!!"; ?>
+    <div><a href="login.php">
+            <Button class="btn btn-primary">LOG IN</Button>
+        </a>
+    </div>
+
+<?php }
 ?>

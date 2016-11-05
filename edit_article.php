@@ -16,10 +16,10 @@ require_once "config.php";
 
 if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
-    $query = "SELECT `id`,`title`,`description`,`link` FROM `articles` where `id` =" . $_GET['article_id'];
-    var_dump($query);
+    $query = "SELECT `id`,`title`,`description`,`link` ,`writer_id`, `created_at` FROM `articles` where `id` =" . $_GET['article_id'];
+   // var_dump($query);
     $result = DBConnection::getConnection()->query($query);
-    var_dump($result);
+   // var_dump($result);
 
     $currentArticle = $result->fetch_row();
     var_dump($currentArticle);
@@ -60,7 +60,9 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
                     <?php echo '<input name="link" class="form-control" type="text" value=' . $currentArticle[3] . '>' ?>
                 </div>
             </div>
-            <input name="id"  type="hidden" value=' <?php  $currentArticle[0]  ?>' />
+            <?php echo '<input name="id"  type="hidden"  value=' . $currentArticle[0] . '>' ?>
+            <?php echo '<input name="writer_id"  type="hidden"  value=' . $currentArticle[4] . '>' ?>
+            <?php echo '<input name="created_at"  type="hidden"  value=' . $currentArticle[5] . '>' ?>
 
             <div class="form-group">
                 <div class="col-md-12 btn">
