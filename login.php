@@ -42,7 +42,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-<body style="background-color: ;">
+<body style="background-color:midnightblue ;">
 <div style="width:400px;  margin-top:100px; margin-left: 500px; background-color: midnightblue; color: aliceblue">
     <h1 align="middle">LOG IN!!</h1>
 </div>
