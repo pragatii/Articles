@@ -7,9 +7,11 @@ require_once "config.php";
 
 
 $_value=$_POST['textarea'];
-$location = "comment_article.php";
 $_user = Helpers::loginUserId();
 $_article = $_POST["article_id"];
+$location = "comment_article.php?article_id=$_article";
+
+var_dump($location);
 $_type="comment";
 
 //$location="login.php";

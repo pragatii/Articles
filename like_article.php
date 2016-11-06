@@ -16,7 +16,10 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
     $checkQuery = "select * from `actions` where `article_id`= '{$_article}' and `user_id`='{$_user}' and `type`='{$_type}'";
     $result = DBConnection::getConnection()->query($checkQuery);
     // var_dump($result);
-    $articleList = $result->fetch_all(MYSQLI_ASSOC);
+    $articleList = [];
+    while($row = $result->fetch_assoc() ) {
+        array_push($articleList, $row);
+    }
     // var_dump($articleList);
 //var_dump(empty($articleList));
 

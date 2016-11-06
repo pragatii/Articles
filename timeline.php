@@ -16,7 +16,10 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
     $query = "select * from `articles` ORDER BY `created_at`";
     $result = DBConnection::getConnection()->query($query);
-    $articleList = $result->fetch_all(MYSQLI_ASSOC);
+    $articleList = [];
+    while($row = $result->fetch_assoc() ) {
+        array_push($articleList, $row);
+    }
 
     ?>
 
@@ -38,7 +41,12 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
         $result1 = DBConnection::getConnection()->query($query1);
         $userName = $result1->fetch_row();
         $fetchActionQuery = "select `user_id`, `value` from `actions` where `article_id` = '{$item['id']}' and `type` = 'like'";
-        $likes = DBConnection::getConnection()->query($fetchActionQuery)->fetch_all(MYSQLI_ASSOC);
+        $likesDb = DBConnection::getConnection()->query($fetchActionQuery);
+        $likes=[];
+        while($row = $likesDb->fetch_assoc() ) {
+            array_push($likes, $row);
+        }
+
         //var_dump($likes);
 
         ?>
