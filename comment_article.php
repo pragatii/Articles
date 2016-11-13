@@ -21,7 +21,6 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
     // $_value = "1";
 
 
-
 }
 ?>
 <!DOCTYPE html>
@@ -41,29 +40,52 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
 
     <ul class="list-group">
 
-            <?php
-            $checkQuery = "select `value` from `actions` where `article_id`= '{$_article}' and `type`='{$_type}'";
-           // var_dump($checkQuery);
-            $result = DBConnection::getConnection()->query($checkQuery);
-            //var_dump($result);
-            $commentList =[];
-            while($row = $result->fetch_assoc() ) {
-                array_push($commentList, $row);
-            }
-            //var_dump($commentList);
+        <?php
+        $checkQuery = "select `value`,`user_id`,`id` from `actions` where `article_id`= '{$_article}' and `type`='{$_type}'";
+       // var_dump($checkQuery);
+        $result = DBConnection::getConnection()->query($checkQuery);
+       // var_dump($result);
+        $commentList = [];
+        while ($row = $result->fetch_assoc()) {
+            array_push($commentList, $row);
+        }
+        //var_dump($commentList);
 
-            if (!(empty($commentList))) {
-            foreach ($commentList as $item) { ?>
+        if (!(empty($commentList))) {
+        foreach ($commentList as $item) {
+        $userId = $item["user_id"];
+        $query = "select `name` from `user` WHERE `id`='{$userId}' ";
+        $result2 = DBConnection::getConnection()->query($query);
+        $userName = $result2->fetch_row();
 
 
-        <li class="list-group-item" style="width:600px; height: 150px ; margin:0px auto;"><?php
+        ?>
 
-            echo $item["value"];
 
-            }
+        <li class="list-group-item" style="width:600px; height: 150px ; margin:0px auto;">
+            <div class="form-group" align="left"><h4><?php
+                echo $userName[0];
 
-            }
-            ?>
+                ?>
+                </h4></div>
+                <?php
+
+                echo $item["value"]; ?>
+
+                <div class="form-group" align="right">
+
+                    <?php echo '<a href= "delete_comment.php?comment_id= ' . $item['id'] . '&article_id=' . $_article .' ">' ?>
+                    <button type="submit" class="btn btn-primary">
+                        Delete
+                    </button>
+
+                </div>
+
+                <?php }
+
+                }
+                ?>
+
         </li>
 
         <form class="form-vertical" method="post" action="comment_submit.php">

@@ -20,6 +20,15 @@ $title=$_POST['title'];
     $createdAt=date("Y-m-d H:i:s");
     $updatedAt=date("Y-m-d H:i:s");
     $location="timeline.php";
+    /*if(isset($_FILES)){
+        if(isset($_FILES['image']['tmp_name'])){
+            $dir="uploads/";
+            $filePath="$dir".time().basename($_FILES["image"]["name"]);
+            move_uploaded_file($_FILES['image']['tmp_name'],$filePath);
+        }
+
+    }*/
+
 
     $query= "insert into `articles` (`title`,`description`,`link`,`writer_id`,`created_at`,`updated_at`) values('{$title}', '{$description}', '{$link}','{$writerId}','{$createdAt}','{$updatedAt}')";
     var_dump($query);
@@ -59,6 +68,13 @@ if (isset($_COOKIE[Constants::LOGIN_COOKIE])) {
                 <input name="link" class="form-control" type="text"/>
             </div>
         </div>
+        <!--<div class="form-group">
+            <label class="col-md-4 control-label">ATTACH A FILE:</label>
+            <div class="col-md-6">
+                <input type="file" name="image">
+
+            </div>
+        </div>-->
 
 
         <div class="form-group">
